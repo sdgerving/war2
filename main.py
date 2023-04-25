@@ -1,14 +1,17 @@
+import sys
+import pygame.font
 import pygame
 import os
 
 # Initialize Pygame
 pygame.init()
+font = pygame.font.Font(None, 32)
+screen_info = pygame.display.Info()
 
-# Set the size of the screen
-SCREEN_WIDTH = 800
-SCREEN_HEIGHT = 600
-screen = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
-
+# Set the size of the game window to be the same as the screen
+window_width = screen_info.current_w
+window_height = screen_info.current_h
+screen = pygame.display.set_mode((window_width, window_height))
 # Set the title of the window
 pygame.display.set_caption("Sprite Sheet Animation")
 
@@ -23,6 +26,32 @@ SPRITE_HEIGHT = 32
 SPRITES_PER_ROW = 3
 SPRITES_PER_COL = 4
 
+button_font = pygame.font.SysFont("Arial", 20)
+
+# Create the button surface
+button_text = "Exit Game"
+button_surface = button_font.render(button_text, True, (255, 255, 255))
+button_width = button_surface.get_width()
+button_height = button_surface.get_height()
+button_rect = pygame.Rect(window_width - button_width - 10, window_height - button_height - 10, button_width, button_height)
+
+def draw_button(text, pos):
+    # Render the text
+    text_surface = font.render(text, True, (255, 255, 255))
+
+    # Create a rectangle for the button
+    button_rect = pygame.Rect(*pos, 80, 40)
+
+    # Draw the button rectangle
+    pygame.draw.rect(screen, (0, 0, 0), button_rect)
+
+    # Draw the text in the center of the button
+    text_rect = text_surface.get_rect(center=button_rect.center)
+    screen.blit(text_surface, text_rect)
+
+def handle_exit_button_click():
+    pygame.quit()
+    sys.exit()
 # Define a function to slice the sprite sheet into individual sprites
 def slice_spritesheet(sprite_sheet_image, sprite_width, sprite_height, sprites_per_row, sprites_per_col):
     sprites = []
@@ -47,8 +76,8 @@ def colorkey_sprites(sprites):
 colorkey_sprites(sprites)
 
 # Define the position and speed of the sprite
-sprite_x = SCREEN_WIDTH // 2
-sprite_y = SCREEN_HEIGHT // 2
+sprite_x = window_width  // 2
+sprite_y = window_height // 2
 sprite_speed = 5
 
 # Define the animation frames for moving the sprite
@@ -67,6 +96,7 @@ clock = pygame.time.Clock()
 # Define the main game loop
 running = True
 frame_index = 0
+exit_button_rect = pygame.Rect(190, 10, 80, 40)
 while running:
     # Handle events
     for event in pygame.event.get():
@@ -91,7 +121,15 @@ while running:
         sprite_y += sprite_speed
         frame_index = (frame_index + 1) % len(move_frames_down)
         move_frames = move_frames_down
-
+    elif keys[pygame.K_ESCAPE]:
+        if event.type == pygame.KEYDOWN and event.key == pygame.K_ESCAPE:
+            pygame.quit()
+            sys.exit()
+    elif event.type == pygame.MOUSEBUTTONDOWN:
+        if event.button == 1:  # Left mouse button
+            # Check if the exit button was clicked
+            if exit_button_rect.collidepoint(event.pos):
+                handle_exit_button_click()
     # Draw the background
     screen.fill((255, 255, 255))
 
@@ -102,7 +140,9 @@ while running:
 
     # Update the screen
     pygame.display.flip()
-
+    draw_button("Button 1", (10, 10))
+    draw_button("Button 2", (100, 10))
+    draw_button("Exit", (190, 10))
     # Control the frame rate
     clock.tick(30)
 
