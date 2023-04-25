@@ -36,20 +36,25 @@ button_width = button_surface.get_width()
 button_height = button_surface.get_height()
 button_rect = pygame.Rect(window_width - button_width - 10, window_height - button_height - 10, button_width, button_height)
 
-def draw_button(text, pos):
+def draw_button(text, pos, border_color=(0, 0, 0), hover_color=(100, 100, 100)):
+
     # Render the text
-    text_surface = font32.render(text, True, (153, 16, 6))
+    text_surface = font24.render(text, True, (255, 255, 255))
 
     # Create a rectangle for the button
     button_rect = pygame.Rect(*pos, 80, 40)
-
-    # Draw the button rectangle
-    pygame.draw.rect(screen, (0, 0, 0), button_rect)
+    # Check if the mouse is hovering over the button
+    if button_rect.collidepoint(pygame.mouse.get_pos()):
+        button_color = hover_color
+    else:
+        button_color = border_color
+    # Draw the button rectangle with a blue border
+    pygame.draw.rect(screen, (56, 13, 12), button_rect, 0)
+    pygame.draw.rect(screen, (0, 0, 255), button_rect, 3)
 
     # Draw the text in the center of the button
     text_rect = text_surface.get_rect(center=button_rect.center)
     screen.blit(text_surface, text_rect)
-
 def handle_exit_button_click():
     pygame.quit()
     sys.exit()
@@ -146,9 +151,9 @@ while running:
     # Update the screen
     screen.blit(mouse_pos_text, (450, 10))
     screen.blit(fps_text, (400, 30))
-    draw_button("Button 1", (10, 10))
-    draw_button("Button 2", (100, 10))
-    draw_button("Exit", (190, 10))
+    draw_button("Button 1", (10, 10), border_color=(255, 0, 0), hover_color=(255, 100, 100))
+    draw_button("Button 2", (100, 10),border_color=(255, 0, 0), hover_color=(255, 100, 100))
+    draw_button("Exit", (190, 10),border_color=(255, 0, 0), hover_color=(255, 100, 100))
     pygame.display.flip()
 
     # Control the frame rate
