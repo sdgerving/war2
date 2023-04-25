@@ -2,10 +2,11 @@ import sys
 import pygame.font
 import pygame
 import os
-
+import pygame.time
 # Initialize Pygame
 pygame.init()
-font = pygame.font.Font(None, 32)
+font32 = pygame.font.Font(None, 32)
+font24 = pygame.font.Font(None, 24)
 screen_info = pygame.display.Info()
 
 # Set the size of the game window to be the same as the screen
@@ -37,7 +38,7 @@ button_rect = pygame.Rect(window_width - button_width - 10, window_height - butt
 
 def draw_button(text, pos):
     # Render the text
-    text_surface = font.render(text, True, (255, 255, 255))
+    text_surface = font32.render(text, True, (255, 255, 255))
 
     # Create a rectangle for the button
     button_rect = pygame.Rect(*pos, 80, 40)
@@ -98,7 +99,11 @@ running = True
 frame_index = 0
 exit_button_rect = pygame.Rect(190, 10, 80, 40)
 while running:
+    clock.tick(60)
     # Handle events
+    mouse_pos_text = font24.render(f"Mouse position: {pygame.mouse.get_pos()}", True, (255,255,255))
+    fps_text = font24.render(f"FPS: {int(clock.get_fps())}", True, (255,255,255))
+
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
             running = False
@@ -131,7 +136,7 @@ while running:
             if exit_button_rect.collidepoint(event.pos):
                 handle_exit_button_click()
     # Draw the background
-    screen.fill((255, 255, 255))
+    screen.fill((0, 0, 0))
 
     # Draw the sprite
     frame = move_frames[frame_index]
@@ -139,10 +144,13 @@ while running:
     draw_sprite(screen, sprite, sprite_x, sprite_y)
 
     # Update the screen
-    pygame.display.flip()
+    screen.blit(mouse_pos_text, (450, 10))
+    screen.blit(fps_text, (400, 30))
     draw_button("Button 1", (10, 10))
     draw_button("Button 2", (100, 10))
     draw_button("Exit", (190, 10))
+    pygame.display.flip()
+
     # Control the frame rate
     clock.tick(30)
 
