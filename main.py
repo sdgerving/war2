@@ -46,11 +46,14 @@ def draw_button(text, pos, border_color=(0, 0, 0), hover_color=(100, 100, 100)):
     # Check if the mouse is hovering over the button
     if button_rect.collidepoint(pygame.mouse.get_pos()):
         button_color = hover_color
+        pygame.draw.rect(screen, (hover_color), button_rect, 0)
+        pygame.draw.rect(screen, (border_color), button_rect, 3)
     else:
-        button_color = border_color
+        pygame.draw.rect(screen, (56, 13, 12), button_rect, 0)
+        pygame.draw.rect(screen, (0, 0, 255), button_rect, 3)
+
     # Draw the button rectangle with a blue border
-    pygame.draw.rect(screen, (56, 13, 12), button_rect, 0)
-    pygame.draw.rect(screen, (0, 0, 255), button_rect, 3)
+
 
     # Draw the text in the center of the button
     text_rect = text_surface.get_rect(center=button_rect.center)
