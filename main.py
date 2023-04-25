@@ -52,7 +52,7 @@ sprite_y = SCREEN_HEIGHT // 2
 sprite_speed = 5
 
 # Define the animation frames for moving the sprite
-move_frames=[]
+move_frames=[0,0,0,0]
 move_frames_down = [0, 1, 2, 1]
 move_frames_up = [9, 10, 11, 9]
 move_frames_left = [3, 4, 5, 3]
