@@ -31,14 +31,14 @@ button_font = pygame.font.SysFont("Arial", 20)
 
 # Create the button surface
 button_text = "Exit Game"
-button_surface = button_font.render(button_text, True, (255, 255, 255))
+button_surface = button_font.render(button_text, True, (26, 15, 56))
 button_width = button_surface.get_width()
 button_height = button_surface.get_height()
 button_rect = pygame.Rect(window_width - button_width - 10, window_height - button_height - 10, button_width, button_height)
 
 def draw_button(text, pos):
     # Render the text
-    text_surface = font32.render(text, True, (255, 255, 255))
+    text_surface = font32.render(text, True, (153, 16, 6))
 
     # Create a rectangle for the button
     button_rect = pygame.Rect(*pos, 80, 40)
