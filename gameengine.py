@@ -1,4 +1,6 @@
 import pygame
+import hexmap
+
 
 class GameEngine:
     def __init__(self, screen_width, screen_height):
