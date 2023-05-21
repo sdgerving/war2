@@ -3,6 +3,7 @@ import pygame.font
 import pygame
 import os
 import pygame.time
+import hexmap
 # Initialize Pygame
 pygame.init()
 font32 = pygame.font.Font(None, 32)
@@ -35,6 +36,7 @@ button_surface = button_font.render(button_text, True, (26, 15, 56))
 button_width = button_surface.get_width()
 button_height = button_surface.get_height()
 button_rect = pygame.Rect(window_width - button_width - 10, window_height - button_height - 10, button_width, button_height)
+board_size = 30
 
 def draw_button(text, pos, border_color=(0, 0, 0), hover_color=(100, 100, 100)):
 
@@ -95,6 +97,7 @@ move_frames_down = [0, 1, 2, 1]
 move_frames_up = [9, 10, 11, 9]
 move_frames_left = [3, 4, 5, 3]
 move_frames_right = [6, 7, 8 ,6]
+
 # Define a function to draw the sprite on the screen
 def draw_sprite(screen, sprite, x, y):
     screen.blit(sprite, (x - sprite.get_width() // 2, y - sprite.get_height() // 2))
