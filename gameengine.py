@@ -1,5 +1,4 @@
 import pygame
-import hexmap
 
 
 class GameEngine:
